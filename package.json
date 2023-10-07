@@ -1,6 +1,6 @@
 {
   "name": "junkquit-web",
-  "version": "X.Y.Z",
+  "version": "1.2.3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
