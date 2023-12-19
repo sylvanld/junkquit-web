@@ -1,16 +1,20 @@
 <template>
   <v-app id="app">
-    <v-main>
-      <NavigationView />
-      <router-view />
+    <AppBarView />
+    <v-main style="padding-top: 3em; padding-bottom: 15em">
+      <v-container>
+        <router-view></router-view>
+      </v-container>
     </v-main>
+    <BottomNavigationView />
   </v-app>
 </template>
 
 <script>
-import NavigationView from "@/views/NavigationView";
+import AppBarView from "@/views/layout/AppBarView";
+import BottomNavigationView from "@/views/layout/BottomNavigationView";
 
 export default {
-  components: { NavigationView },
+  components: { AppBarView, BottomNavigationView },
 };
 </script>

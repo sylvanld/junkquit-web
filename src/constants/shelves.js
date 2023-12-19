@@ -34,4 +34,9 @@ export default [
         title: "Boucherie",
         icon: "mdi-food-steak",
     },
+    {
+        id: "grocery",
+        title: "Epicerie",
+        icon: "mdi-barley"
+    }
 ];

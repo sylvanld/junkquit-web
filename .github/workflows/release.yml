@@ -1,4 +1,3 @@
-
 name: "Release"
 
 on:
@@ -19,7 +18,7 @@ jobs:
     with:
       git_tag: ${{ inputs.version }}
       run_before: |
-        sed -i 's|X.Y.Z|1.2.3|g' package.json package-lock.json
+        sed -i 's|0.0.0|${{ inputs.version }}|g' package.json package-lock.json
         git add package.json package-lock.json
 
         git config --global user.email 'action@github.com'
@@ -34,7 +33,7 @@ jobs:
       git_tag: ${{ inputs.version }}
       docker_image_name: sylvanld/junkquit
       docker_image_tags: ${{ inputs.version }}
-  
+
   deploy:
     needs: docker-release
     if: inputs.deploy_on_success
