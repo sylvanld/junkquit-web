@@ -21,10 +21,6 @@ jobs:
         sed -i 's|0.0.0|${{ inputs.version }}|g' package.json package-lock.json
         git add package.json package-lock.json
 
-        git config --global user.email 'action@github.com'
-        git config --global user.name 'Gitub Action'
-        git commit -m 'Release version ${{ inputs.version }}'
-
   docker-release:
     needs: git-release
     uses: sylvanld/github-workflows/.github/workflows/docker-release.yml@main
