@@ -18,7 +18,7 @@ jobs:
     with:
       git_tag: ${{ inputs.version }}
       run_before: |
-        sed -i 's|"0.0.0"|"${{ inputs.version }}"|g' package.json package-lock.json
+        sed -i 's|\"0.0.0\"|\"${{ inputs.version }}\"|g' package.json package-lock.json
         git add package.json package-lock.json
 
   docker-release:
