@@ -16,3 +16,6 @@ install: ## Install dev. dependencies with npm
 
 serve: .update-env ## Render and serve vue app with hot reload
 	npm run serve -- --port=$(JUNKQUIT_WEB_PORT)
+
+build:
+	docker build -t sylvanld/junkquit-web:latest .
