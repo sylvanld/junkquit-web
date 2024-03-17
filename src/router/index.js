@@ -6,6 +6,8 @@ import CreateGroupView from '@/views/groups/CreateGroupView'
 import KitchenView from '@/views/kitchen/KitchenView'
 
 import ShoppingListView from '@/views/shopping/ShoppingListView'
+import ShoppingAddRecipeView from '@/views/shopping/ShoppingAddRecipeView'
+import ShoppingListRecipesView from '@/views/shopping/ShoppingListRecipesView'
 
 import RecipeEditView from '@/views/recipes/RecipeEditView'
 import RecipesBrowseView from '@/views/recipes/RecipesBrowseView'
@@ -61,6 +63,22 @@ const routes = [
     component: ShoppingListView,
     meta: {
       pageTitle: 'Courses'
+    }
+  },
+  {
+    path: '/shopping/recipes',
+    name: 'shopping-recipes',
+    component: ShoppingListRecipesView,
+    meta: {
+      pageTitle: 'Recettes de la liste'
+    }
+  },
+  {
+    path: '/shopping/add/recipe/:recipeUID',
+    name: 'shopping-add-recipe',
+    component: ShoppingAddRecipeView,
+    meta: {
+      pageTitle: 'Ajouter une recette'
     }
   },
   {

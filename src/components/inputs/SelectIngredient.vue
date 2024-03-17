@@ -42,11 +42,7 @@ export default {
   },
   methods: {
     async searchIngredients(query) {
-      const response = await fetch(
-        "http://192.168.1.34:8032/v1/ingredients?name=" +
-          encodeURIComponent(query)
-      );
-      this.items = await response.json();
+      this.items = await this.$store.dispatch('ingredients/searchIngredients', {name: query});
     },
     notifyChange() {
       this.$emit("input", this.ingredient);

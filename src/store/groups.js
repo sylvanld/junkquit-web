@@ -29,16 +29,6 @@ export default {
         async create(context, { group }) {
             const response = await http.post("/v1/groups", group);
             return response.data;
-        },
-        async addRecipeToList(context, { recipe_uid, diners }) {
-            const selectedGroupUID = context.state.selectedGroup.uid;
-            const response = await http.post(`/v1/groups/${selectedGroupUID}/list/recipes`, { recipe_uid, diners });
-            return response.data;
-        },
-        async getListRecipes(context) {
-            const selectedGroupUID = context.state.selectedGroup.uid;
-            const response = await http.get(`/v1/groups/${selectedGroupUID}/list/recipes`);
-            return response.data;
         }
     }
 }

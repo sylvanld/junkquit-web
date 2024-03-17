@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h1>Créez un groupe pour continuer</h1>
     <form @submit.prevent="submitGroupCreation()">
       <v-text-field label="Nom du groupe" v-model="group.name" required />
       <v-btn color="primary" type="submit">créer</v-btn>

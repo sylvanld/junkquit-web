@@ -7,7 +7,7 @@
       style="position: fixed; bottom: 7em; right: 1em"
       @click="addRecipeToCart()"
     >
-      <v-icon>mdi-plus-box-multiple</v-icon>
+      <v-icon>mdi-cart</v-icon>
     </v-btn>
 
     <v-text-field
@@ -76,14 +76,10 @@ export default {
         .then((recipes) => (this.recipes = recipes));
     },
     addRecipeToCart() {
-      this.$store
-        .dispatch("groups/addRecipeToList", {
-          recipe_uid: this.selectedRecipe.uid,
-          diners: this.selectedRecipe.diners,
-        })
-        .then(() => {
-          this.selectedRecipe = null;
-        });
+      this.$router.push({
+        name: "shopping-add-recipe",
+        params: { recipeUID: this.selectedRecipe.uid },
+      });
     },
     selectRecipe(recipe) {
       if (this.selectedRecipe && this.selectedRecipe.uid == recipe.uid) {
