@@ -29,6 +29,7 @@
         :value="!shelve.checked"
         :prepend-icon="shelve.icon"
       >
+        <v-divider></v-divider>
         <template v-slot:activator>
           <v-list-item-title :style="computeItemStyle(shelve)">
             <strong>
