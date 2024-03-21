@@ -1,23 +1,35 @@
 <template>
   <v-container>
-    <h1>Recettes de la liste de courses</h1>
-
-    <strong>Nombre de repas: {{ numberOfMeals }}</strong>
-    <br />
+    <h1>Recettes de la liste</h1>
+    <p>
+      <strong>Nombre de repas: {{ numberOfMeals }}</strong>
+    </p>
     <router-link :to="{ name: 'shopping' }">Retour à la liste</router-link>
 
     <v-list>
-      <v-subheader>Recettes</v-subheader>
       <v-list-item v-for="recipe in recipes" :key="recipe.uid">
         <v-list-item-content>
           <v-list-item-title>
-            {{ recipe.name }}
+            <strong>
+              {{ recipe.name }}
+            </strong>
           </v-list-item-title>
-          <v-list-item-subtitle>
-            <v-icon>mdi-account-multiple</v-icon> {{ recipe.scale }}
-          </v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action> </v-list-item-action>
+        <v-list-item-action>
+          <span style="display: flex">
+            <v-btn text color="red" @click="deleteShoppingListRecipe(recipe)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+
+            <v-text-field
+              type="number"
+              style="max-width: 4em; text-align: right"
+              append-icon="mdi-account-multiple"
+              v-model.number="recipe.scale"
+              @change="updateShoppingListRecipe(recipe)"
+            />
+          </span>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
   </v-container>
@@ -29,6 +41,8 @@ import { mapState } from "vuex";
 export default {
   data: () => ({
     recipes: [],
+    selectedRecipeUID: null,
+    editing: false,
   }),
   computed: {
     ...mapState("groups", ["selectedGroup"]),
@@ -42,8 +56,16 @@ export default {
       return meals;
     },
   },
+  watch: {
+    selectedGroup: {
+      immediate: true,
+      handler(group) {
+        this.refreshShoppingListRecipes(group && group.uid);
+      },
+    },
+  },
   methods: {
-    updateShoppingListRecipes(groupUID) {
+    refreshShoppingListRecipes(groupUID) {
       if (!groupUID) return;
       this.$store
         .dispatch("shopping/getBatches", { groupUID })
@@ -51,13 +73,28 @@ export default {
           this.recipes = batches.filter((batch) => batch.type === "recipe");
         });
     },
-  },
-  watch: {
-    selectedGroup: {
-      immediate: true,
-      handler(group) {
-        this.updateShoppingListRecipes(group && group.uid);
-      },
+    async updateShoppingListRecipe(recipe) {
+      const groupUID = this.selectedGroup && this.selectedGroup.uid;
+      try {
+        await this.$store.dispatch("shopping/updateRecipe", {
+          groupUID,
+          recipe,
+        });
+      } catch (error) {
+        alert("Failed to update ingredient quantity!");
+      }
+    },
+    async deleteShoppingListRecipe(recipe) {
+      const groupUID = this.selectedGroup && this.selectedGroup.uid;
+      try {
+        await this.$store.dispatch("shopping/deleteRecipe", {
+          groupUID,
+          recipeUID: recipe.uid,
+        });
+      } catch (error) {
+        alert("Failed to delete recipe from shopping list!");
+      }
+      this.refreshShoppingListRecipes(groupUID);
     },
   },
 };
