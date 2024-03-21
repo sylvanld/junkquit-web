@@ -7,7 +7,7 @@ const http = axios.create({
 export default {
     namespaced: true,
     actions: {
-        async getCart(context, {groupUID}){
+        async getCart(context, { groupUID }) {
             const response = await http.get(`/v1/groups/${groupUID}/cart`);
             return response.data;
         },
@@ -20,9 +20,16 @@ export default {
                 }
             }
         },
-        async getBatches(context, {groupUID}){
+        async getBatches(context, { groupUID }) {
             const response = await http.get(`/v1/groups/${groupUID}/cart/batch`);
             return response.data;
+        },
+        async updateRecipe(context, { groupUID, recipe }) {
+            const response = await http.put(`/v1/groups/${groupUID}/cart/batch/${recipe.uid}`, { name: recipe.name, scale: recipe.scale });
+            return response.data;
+        },
+        async deleteRecipe(context, { groupUID, recipeUID }) {
+            await http.delete(`/v1/groups/${groupUID}/cart/batch/${recipeUID}`);
         }
     }
 }
