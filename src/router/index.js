@@ -18,6 +18,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    redirect: '/recipes'
+  },
+  {
     path: '/recipes',
     name: 'recipes',
     component: RecipesBrowseView,
