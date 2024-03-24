@@ -1,10 +1,10 @@
 <template>
-  <v-container>
+  <v-container style="position: relative">
     <v-btn
       color="orange"
       fab
       v-if="selectedRecipe"
-      style="position: fixed; bottom: 7em; right: 1em"
+      style="position: fixed; bottom: 7em; z-index: 999; right: 2em"
       @click="addRecipeToCart()"
     >
       <v-icon>mdi-cart</v-icon>
