@@ -2,9 +2,7 @@
   <v-container style="position: relative">
     <h1>Liste de courses</h1>
 
-    <router-link
-      :to="{ name: 'shopping-recipes' }"
-    >
+    <router-link :to="{ name: 'shopping-recipes' }">
       Modifier les recettes
     </router-link>
 
@@ -24,11 +22,8 @@
       </v-progress-linear>
     </div>
 
-    <v-list v-for="shelve in itemsByShelve" :key="shelve">
-      <v-list-group
-        :value="!shelve.checked"
-        :prepend-icon="shelve.icon"
-      >
+    <v-list v-for="shelve in itemsByShelve" :key="shelve.name">
+      <v-list-group :value="!shelve.checked" :prepend-icon="shelve.icon">
         <v-divider></v-divider>
         <template v-slot:activator>
           <v-list-item-title :style="computeItemStyle(shelve)">
@@ -52,7 +47,7 @@
               {{ item.ingredient.name }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ item.quantity }} {{ item.unit }}
+              {{ item.remainingQuantity }} {{ item.unit }}
             </v-list-item-subtitle>
           </v-list-item-content>
 
@@ -87,14 +82,20 @@ export default {
       }
       const shelves = [];
       let counter = 0;
-      for(let shelve of Object.keys(itemsByShelve)){
+      for (let shelve of Object.keys(itemsByShelve)) {
         counter = 0;
-        for(let item of itemsByShelve[shelve]){
-          if(!item.checked){
+        for (let item of itemsByShelve[shelve]) {
+          if (!item.checked) {
             counter++;
           }
         }
-        shelves.push({"id": shelve, "name": SHELVES[shelve].title, "icon": SHELVES[shelve].icon, "items": itemsByShelve[shelve], "checked": counter===0})
+        shelves.push({
+          id: shelve,
+          name: SHELVES[shelve].title,
+          icon: SHELVES[shelve].icon,
+          items: itemsByShelve[shelve],
+          checked: counter === 0,
+        });
       }
       return shelves;
     },
@@ -132,7 +133,6 @@ export default {
 
         for (let item of cart.items) {
           item.ingredient = ingredientByUID[item.itemUID];
-          item.checked = false;
         }
 
         this.items = items;
