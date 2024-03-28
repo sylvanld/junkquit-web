@@ -13,7 +13,7 @@ export default {
         },
         async addBatch(context, { groupUID, batchUID, name, type, scale, items }) {
             try {
-                await http.post(`/v1/groups/${groupUID}/cart/batch`, { batchUID, name, type, scale, items });
+                await http.post(`/v1/groups/${groupUID}/checklist/batch`, { batchUID, name, type, scale, items });
             } catch (error) {
                 if (error.response.status === 409) {
                     alert("Recipe is already in shopping list.")
@@ -21,15 +21,15 @@ export default {
             }
         },
         async getBatches(context, { groupUID }) {
-            const response = await http.get(`/v1/groups/${groupUID}/cart/batch`);
+            const response = await http.get(`/v1/groups/${groupUID}/checklist/batch`);
             return response.data;
         },
         async updateRecipe(context, { groupUID, recipe }) {
-            const response = await http.put(`/v1/groups/${groupUID}/cart/batch/${recipe.uid}`, { name: recipe.name, scale: recipe.scale });
+            const response = await http.put(`/v1/groups/${groupUID}/checklist/batch/${recipe.uid}`, { name: recipe.name, scale: recipe.scale });
             return response.data;
         },
         async deleteRecipe(context, { groupUID, recipeUID }) {
-            await http.delete(`/v1/groups/${groupUID}/cart/batch/${recipeUID}`);
+            await http.delete(`/v1/groups/${groupUID}/checklist/batch/${recipeUID}`);
         }
     }
 }
