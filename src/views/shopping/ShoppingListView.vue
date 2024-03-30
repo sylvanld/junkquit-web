@@ -140,7 +140,22 @@ export default {
     },
   },
   methods: {
-    toggleItemCheck(item) {
+    async toggleItemCheck(item) {
+      if (item.checked) {
+        await this.$store.dispatch("shopping/removeItemFromCart", {
+          groupUID: this.selectedGroup.uid,
+          cartItemUID: item.cartItemUID,
+        });
+      } else {
+        const cartItem = await this.$store.dispatch("shopping/addItemToCart", {
+          groupUID: this.selectedGroup.uid,
+          itemUID: item.itemUID,
+          quantity: item.remainingQuantity,
+          unit: item.unit,
+        });
+        console.log("Updating cartItemUID", cartItem.cartItemUID);
+        item.cartItemUID = cartItem.cartItemUID;
+      }
       item.checked = !item.checked;
     },
     computeItemStyle(item) {

@@ -30,6 +30,13 @@ export default {
         },
         async deleteRecipe(context, { groupUID, recipeUID }) {
             await http.delete(`/v1/groups/${groupUID}/checklist/batch/${recipeUID}`);
+        },
+        async addItemToCart(context, { groupUID, itemUID, quantity, unit }) {
+            const response = await http.post(`/v1/groups/${groupUID}/cart/items`, { itemUID, quantity, unit });
+            return response.data;
+        },
+        async removeItemFromCart(context, { groupUID, cartItemUID }) {
+            await http.delete(`/v1/groups/${groupUID}/cart/items/${cartItemUID}`);
         }
     }
 }
