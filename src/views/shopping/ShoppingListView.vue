@@ -17,10 +17,29 @@
         padding: 1em;
       "
     >
-      <v-progress-linear color="primary" :value="countProgress" height="22">
+      <v-progress-linear
+        v-if="countProgress < 100"
+        color="primary"
+        :value="countProgress"
+        height="22"
+      >
         <strong>{{ Math.ceil(countProgress) }} %</strong>
       </v-progress-linear>
+
+      <v-btn
+        v-if="items.length > 0"
+        @click="emptyShoppingCart()"
+        color="accent"
+        style="display: block; margin-left: auto"
+      >
+        terminer les courses
+      </v-btn>
     </div>
+
+    <p style="padding: 2em 1em" v-if="items.length === 0">
+      Aucun ingrédient dans la liste... Ajoutez des recettes à la liste de
+      course pour continuer !
+    </p>
 
     <v-list v-for="shelve in itemsByShelve" :key="shelve.name">
       <v-list-group :value="!shelve.checked" :prepend-icon="shelve.icon">
@@ -164,6 +183,12 @@ export default {
         style.textDecoration = "line-through";
       }
       return style;
+    },
+    async emptyShoppingCart() {
+      await this.$store.dispatch("shopping/emptyCart", {
+        groupUID: this.selectedGroup.uid,
+      });
+      this.items = [];
     },
   },
 };

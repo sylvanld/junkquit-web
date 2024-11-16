@@ -37,6 +37,9 @@ export default {
         },
         async removeItemFromCart(context, { groupUID, cartItemUID }) {
             await http.delete(`/v1/groups/${groupUID}/cart/items/${cartItemUID}`);
+        },
+        async emptyCart(context, { groupUID }) {
+            await http.post(`/v1/groups/${groupUID}/cart/empty`);
         }
     }
 }
