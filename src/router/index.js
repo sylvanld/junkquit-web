@@ -92,8 +92,15 @@ const routes = [
   }
 ]
 
+function getHistoryMode() {
+  if (process.env.CORDOVA_PLATFORM) {
+    return "hash";
+  }
+  return "history";
+}
+
 const router = new VueRouter({
-  mode: 'history',
+  mode: getHistoryMode(),
   base: process.env.BASE_URL,
   routes
 })
