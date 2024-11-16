@@ -1,15 +1,5 @@
 <template>
   <v-container style="position: relative">
-    <v-btn
-      color="orange"
-      fab
-      v-if="selectedRecipe"
-      style="position: fixed; bottom: 7em; z-index: 999; right: 2em"
-      @click="addRecipeToCart()"
-    >
-      <v-icon>mdi-cart</v-icon>
-    </v-btn>
-
     <v-text-field
       prepend-icon="mdi-book-open-page-variant-outline"
       label="Chercher une recette"
@@ -29,9 +19,9 @@
 
       <v-list-item
         v-for="recipe in recipes"
-        @click="selectRecipe(recipe)"
         :class="{ active: recipe == selectedRecipe }"
         :key="recipe.uid"
+        @click="openRecipe(recipe)"
       >
         <v-list-item-avatar>
           <v-img :src="recipe.thumbnail_url"></v-img>
@@ -52,6 +42,12 @@
             </strong>
           </v-list-item-subtitle>
         </v-list-item-content>
+
+        <v-list-item-action>
+          <v-btn icon @click.prevent="addRecipeToCart(recipe)">
+            <v-icon color="primary">mdi-cart</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
   </v-container>
@@ -63,7 +59,6 @@ import cookbookClient from "@/clients/cookbook";
 export default {
   data: () => ({
     query: "",
-    selectedRecipe: null,
     recipes: [],
   }),
   mounted() {
@@ -75,20 +70,17 @@ export default {
         .searchRecipes({ name: this.query })
         .then((recipes) => (this.recipes = recipes));
     },
-    addRecipeToCart() {
+    addRecipeToCart(recipe) {
       this.$router.push({
         name: "shopping-add-recipe",
-        params: { recipeUID: this.selectedRecipe.uid },
+        params: { recipeUID: recipe.uid },
       });
     },
-    selectRecipe(recipe) {
-      if (this.selectedRecipe && this.selectedRecipe.uid == recipe.uid) {
-        this.$router.push({
-          name: "recipe-read",
-          params: { recipeUID: recipe.uid },
-        });
-      }
-      this.selectedRecipe = recipe;
+    openRecipe(recipe) {
+      this.$router.push({
+        name: "recipe-read",
+        params: { recipeUID: recipe.uid },
+      });
     },
   },
 };
