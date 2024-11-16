@@ -1,5 +1,11 @@
 <template>
   <v-app-bar color="primary" dark fixed>
+    <v-app-bar-nav-icon>
+      <v-avatar tile small size="36">
+        <img src="@/assets/junkquit.png" alt="John" />
+      </v-avatar>
+    </v-app-bar-nav-icon>
+
     <v-app-bar-title>
       <strong>JunkQuit</strong>
     </v-app-bar-title>
